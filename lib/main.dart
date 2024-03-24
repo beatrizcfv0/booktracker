@@ -1,13 +1,34 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:booktracker/pages/books.dart';
+import 'package:booktracker/pages/home.dart';
+import 'package:booktracker/pages/search.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+  void _navigateBottomBar(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final List _pages = [
+    HomePage(),
+    BooksPage(),
+    SearchPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,16 +102,19 @@ class MyApp extends StatelessWidget {
                   color: Color.fromARGB(217, 218, 218, 218),
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                 ),
-                child: Text('Reading Goals',
-                ),
+              child: Text('Reading Goals'),
               ),
             ),
+            _pages[_selectedIndex], 
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _navigateBottomBar,
           backgroundColor: Color.fromARGB(255, 255, 253, 247),
           elevation: 0,
-        items: const <BottomNavigationBarItem>[
+          selectedItemColor: Color.fromARGB(255, 16, 100, 142),
+          items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
